@@ -1,0 +1,41 @@
+{
+  "name": "electron-python-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron . --env=local --name=test",
+    "start:pro": "STARTUP_MODE=pro electron .",
+    "start:dev": "STARTUP_MODE=dev electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "DEBUG=electron-builderxxx electron-builder"
+  },
+  "devDependencies": {
+    "electron": "20.3.5",
+    "electron-builder": "^24.6.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "build": {
+    "extraFiles": [
+      {
+        "from": "../__dist/server",
+        "to": "Resources/server"
+      }
+    ],
+    "directories": {
+      "output": "../__dist/target"
+    },
+    "mac": {
+      "target": {
+        "target": "dmg",
+        "arch": [
+          "universal"
+        ]
+      },
+      "x64ArchFiles": "Contents/Resources/server/**/*",
+      "mergeASARs": true
+    }
+  }
+}

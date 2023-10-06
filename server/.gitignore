@@ -1,0 +1,7 @@
+.idea
+*.iml
+*.log
+__pycache__
+__venv
+dist
+build

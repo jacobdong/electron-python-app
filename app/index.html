@@ -1,0 +1,49 @@
+<html lang="cn">
+<head><title>starter</title></head>
+<body>
+hello world
+
+<hr/>
+
+
+<script>
+    function call(url) {
+        const output = document.getElementById('out');
+        output.textContent = 'loading...';
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('GET', url, true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                console.log(JSON.parse(xmlhttp.response));
+                let response = JSON.parse(xmlhttp.response);
+                console.group(`response`)
+                console.log(response)
+                console.groupEnd();
+                alert(`请求正常`);
+                const output = document.getElementById('out');
+                output.textContent = JSON.stringify(response, null, 2);
+            } else if (xmlhttp.readyState === 4 && xmlhttp.status !== 200) {
+                alert("请求失败");
+            }
+        }
+    }
+
+    function callMain() {
+        const url = "http://127.0.0.1:50000/"
+        call(url)
+    }
+
+    function callTest() {
+        const url = "http://127.0.0.1:50000/service"
+        call(url)
+    }
+</script>
+
+<button onclick="callMain()">获取 python 服务版本</button>
+<button onclick="callTest()">测试 python 模块访问</button>
+<hr/>
+
+<pre id="out"></pre>
+</body>
+</html>
