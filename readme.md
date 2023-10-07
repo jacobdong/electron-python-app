@@ -1,46 +1,83 @@
-# 项目启动流程
-## 先启动server
-## 后启动electron
-```shell
-cd app
-npm install
-npm run start:dev
-```
-## 预期的输出结果
-![img.png](__doc/img2.png)
+## 预期结果
 
+![1696658500933.jpg](__doc%2F1696658500933.jpg)
 
-# server 端启动的办法
-> 脚本均在 server 根目录下面执行
+## step 01 server 环境准备
+根目录下
 ```shell
 cd server
 ```
-
-## 保证 python3 的安装下
-
-### 1.初始化
+### 1.1 初始化
 ```shell
 sh __shell/init.sh
 ```
-### 2.安装依赖
+### 1.2 安装依赖
 ```shell
 sh __shell/install.sh
 ```
-### 3.启动
+## step 02 启动开发环境
+根目录下
 ```shell
-sh __shell/start.sh
+cd app
 ```
-
-### 4.构建
+### 2.1 安装依赖
+```
+npm install
+```
+### 2.2 启动开发环境
 ```shell
+npm run start:dev 
+```
+![1696659201617.jpg](__doc%2F1696659201617.jpg)
+
+## step 03 构建打包
+构建结果存储在根目录下 __dist目录
+### 3.1 构建 python app
+```shell
+cd server
 sh __shell/build.sh
 ```
-
-### 5.启动构建后的应用
-> 第一次启动可能时间会比较久
-> 里面有动态链接库的检查等等
+构建结果如下（__dist目录下）
 ```shell
-./dist/app/app 
+.
+└── server
+    └── app
+        ├── _internal
+        │   ├── Python -> Python.framework/Versions/3.10/Python
+        │   ├── Python.framework
+        │   ├── __static
+        │   ├── base_library.zip
+        │   ├── flask-3.0.0.dist-info
+        │   ├── lib-dynload
+        │   ├── libcrypto.1.1.dylib
+        │   ├── liblzma.5.dylib
+        │   ├── libmpdec.3.dylib
+        │   ├── libreadline.8.dylib
+        │   ├── libssl.1.1.dylib
+        │   ├── markupsafe
+        │   └── werkzeug-3.0.0.dist-info
+        └── app
+
 ```
 
-![img.png](__doc/img.png)
+### 3.1 构建 electron
+根目录下
+```
+cd app
+npm run dist
+```
+构建结果如下（__dist目录下）
+```shell
+.
+├── server
+│   └── app
+│       ├── _internal
+│       └── app
+└── target
+    ├── builder-effective-config.yaml
+    ├── electron-python-app-1.0.0-universal.dmg
+    ├── electron-python-app-1.0.0-universal.dmg.blockmap
+    └── mac-universal
+        └── electron-python-app.app
+
+```
