@@ -2,15 +2,22 @@ import os
 
 from flask import Flask, send_file
 import service.files as files
+import service.system as system
+
+from blueprint.user_bp import user_management_bp
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def home():
+    user_home = os.path.expanduser("~")
     info = {
         "name": "starter_server",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "user_path": user_home,
+        "app_path": system.check_app_dir(),
+        "server_db_path": system.get_server_db(),
     }
     return info
 
@@ -43,4 +50,8 @@ def get_image_info():
 
 
 if __name__ == '__main__':
+    system.check_app_dir()
+    system.check_table()
+
+    app.register_blueprint(user_management_bp, url_prefix='/users')
     app.run(debug=True, host='0.0.0.0', port=50000)
