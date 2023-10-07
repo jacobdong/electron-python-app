@@ -34,11 +34,13 @@ def check_app_dir():
         # 如果文件夹不存在，创建它
         os.makedirs(app_dir, exist_ok=True)
         print(f"文件夹 '{app_dir}' 创建成功")
-    else:
-        print(f"文件夹 '{app_dir}' 已存在")
+    # else:
+    # print(f"文件夹 '{app_dir}' 已存在")
     return app_dir
 
 
 def get_server_db():
     base_dir = check_app_dir()
     return os.path.join(base_dir, 'server.db')
+
+

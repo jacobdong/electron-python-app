@@ -1,6 +1,7 @@
 import sqlite3
 import random
 import string
+import service.system as system
 
 from flask import Blueprint, request, jsonify
 
@@ -16,7 +17,7 @@ def add_user():
         role = data['role']
         permissions = data['permissions']
         status = data['status']
-        conn = sqlite3.connect('user.db')
+        conn = sqlite3.connect(system.get_server_db())
         cursor = conn.cursor()
         cursor.execute("INSERT INTO users (username, role, permissions, status) VALUES (?, ?, ?, ?)",
                        (username, role, permissions, status))
@@ -31,7 +32,7 @@ def add_user():
 @user_management_bp.route('', methods=['GET'])
 def get_users():
     try:
-        conn = sqlite3.connect('user.db')
+        conn = sqlite3.connect(system.get_server_db())
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM users")
         users = cursor.fetchall()
@@ -60,7 +61,7 @@ def update_user(user_id):
         role = data['role']
         permissions = data['permissions']
         status = data['status']
-        conn = sqlite3.connect('user.db')
+        conn = sqlite3.connect(system.get_server_db())
         cursor = conn.cursor()
         cursor.execute("UPDATE users SET username=?, role=?, permissions=?, status=? WHERE id=?",
                        (username, role, permissions, status, user_id))
@@ -75,7 +76,7 @@ def update_user(user_id):
 @user_management_bp.route('/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     try:
-        conn = sqlite3.connect('user.db')
+        conn = sqlite3.connect(system.get_server_db())
         cursor = conn.cursor()
         cursor.execute("DELETE FROM users WHERE id=?", (user_id,))
         conn.commit()
@@ -90,13 +91,13 @@ def delete_user(user_id):
 def add_random_user():
     try:
         username, role, permissions, status = __generate_random_user()
-        conn = sqlite3.connect('user.db')
+        conn = sqlite3.connect(system.get_server_db())
         cursor = conn.cursor()
         cursor.execute("INSERT INTO users (username, role, permissions, status) VALUES (?, ?, ?, ?)",
                        (username, role, permissions, status))
         conn.commit()
         conn.close()
-        return jsonify({"message": "Random user added successfully"}), 201  # 返回201表示成功创建
+        return jsonify({"message": "Random user added successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400  # 返回400表示客户端请求错误
 

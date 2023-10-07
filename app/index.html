@@ -20,10 +20,12 @@ hello world
                 console.group(`response`)
                 console.log(response)
                 console.groupEnd();
-                alert(`请求正常`);
+                // alert(`请求正常`);
                 const output = document.getElementById('out');
                 output.textContent = JSON.stringify(response, null, 2);
             } else if (xmlhttp.readyState === 4 && xmlhttp.status !== 200) {
+                console.log(xmlhttp.readyState)
+                console.log(xmlhttp.status)
                 alert("请求失败");
             }
         }
@@ -38,10 +40,23 @@ hello world
         const url = "http://127.0.0.1:50000/service"
         call(url)
     }
+
+    function callRandomUser() {
+        const url = "http://127.0.0.1:50000/users/random"
+        call(url)
+    }
+
+    function callUsers() {
+        const url = "http://127.0.0.1:50000/users"
+        call(url)
+    }
 </script>
 
 <button onclick="callMain()">获取 python 服务版本</button>
 <button onclick="callTest()">测试 python 模块访问</button>
+<button onclick="callRandomUser()">添加随机用户</button>
+<button onclick="callUsers()">获取用户列表</button>
+
 <hr/>
 
 <pre id="out"></pre>
